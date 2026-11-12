@@ -62,8 +62,8 @@ asm_fib:
 
     /* Enter your code after this comment */
 
-    beq x10, x0, _null // arr == NULL -> return
-    beq x11, x0, _null // length == 0 -> return
+    beq x10, x0, _return // arr == NULL -> return
+    beq x11, x0, _return // length == 0 -> return
 
     li x12, 0 // prev = Fn-2
     li x13, 1 // curr = Fn-1
@@ -77,18 +77,30 @@ asm_fib:
         mul x6, x14, x15
         add x16, x10, x6
         // if statements
-        beq x14, x0, _if
-        beq x14, x7, _else_if
-        blt x7, x14, _else
+        beq x14, x0, _if // i == 0
+        beq x14, x7, _else_if // i == 1
+        blt x7, x14, _else // i > 1
     _if:
-        
-
-        
-
-    _null:
+        sw x12, 0(x16) // arr[i] = prev
+        jal x0, _end_if
+    _else_if:
+        sw x13, 0(x16) // arr[i] = curr
+        jal x0, _end_if
+    _else:
+        addi x8, x13, 0 // temp = curr
+        add x13, x13, x12 // curr += prev
+        addi x12, x8, 0 // prev = temp
+        sw x13, 0(x16) // arr[i] = curr
+        jal x0, _end_if
+    _end_if:
+        addi x14, x14, 1 // i++
+        jal x0, _for
+    _for_end:
         ret
 
-    
+    _return:
+        ret
+
 
     /* Enter your code above this comment */
     ret

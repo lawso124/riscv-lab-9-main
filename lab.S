@@ -31,6 +31,22 @@ asm_strlen:
 
     /* Enter your code after this comment */
     
+    beq x10, x0, _null // check if string = Null
+    li x12, 0 // set length to 0
+
+    _while:
+        lbu x11, 0(x10) // curr char
+        beq x11, x0, _while_end // string = \0 end it
+        addi x12, x12, 1 // add 1 to length
+        addi x10, x10, 1 // next char pos
+        jal x0, _while
+    _while_end:
+        addi x10, x12, 0 // return length
+        ret
+
+    _null:
+        li x10, 0 // return 0
+        ret
     
     /* Enter your code above this comment */
     ret
@@ -45,6 +61,33 @@ asm_fib:
      **/
 
     /* Enter your code after this comment */
+
+    beq x10, x0, _null // arr == NULL -> return
+    beq x11, x0, _null // length == 0 -> return
+
+    li x12, 0 // prev = Fn-2
+    li x13, 1 // curr = Fn-1
+    li x14, 0 // i = 0
+    li x7, 1 // check with i == 1
+
+    _for:
+        bge x14, x11, _for_end // check if i > length
+        // access arr[i]
+        li x15, 4
+        mul x6, x14, x15
+        add x16, x10, x6
+        // if statements
+        beq x14, x0, _if
+        beq x14, x7, _else_if
+        blt x7, x14, _else
+    _if:
+        
+
+        
+
+    _null:
+        ret
+
     
 
     /* Enter your code above this comment */

@@ -114,6 +114,29 @@ asm_toUppercase:
      **/
 
     /* Enter your code after this comment */
+
+    beq x10, x0, _invalid // string == NULL
+    li x12, 97 // lowercase a
+    li x13, 122 // lowercase z
+
+    _UpCase_while:
+        lbu x11, 0(x10) // curr char (char c)
+        beq x11, x0, _UpCase_while_end // string = \0 end it
+        blt x11, x12, _UpCase_end_if // c < a
+        blt x13, x11, _UpCase_end_if // z < c
+        bge x13, x11, _then // z >= c
+    _then:
+        addi x11, x11, -32 // lowercase to uppercase
+        sb x11, 0(x10) // upper to string
+        jal x0, _UpCase_end_if
+    _UpCase_end_if:
+        addi x10, x10, 1 // str++
+        jal x0, _UpCase_while
+    _UpCase_while_end:
+        ret
+
+    _invalid:
+        ret
     
     
     /* Enter your code above this comment */

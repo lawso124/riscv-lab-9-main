@@ -87,9 +87,9 @@ asm_fib:
         sw x13, 0(x16) // arr[i] = curr
         jal x0, _end_if
     _else:
-        addi x8, x13, 0 // temp = curr
+        addi x5, x13, 0 // temp = curr
         add x13, x13, x12 // curr += prev
-        addi x12, x8, 0 // prev = temp
+        addi x12, x5, 0 // prev = temp
         sw x13, 0(x16) // arr[i] = curr
         jal x0, _end_if
     _end_if:
